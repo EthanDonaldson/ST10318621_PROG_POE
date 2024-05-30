@@ -3,7 +3,7 @@ This is a simple console application for managing recipes. It allows users to ad
 
 Github Link:https://github.com/EthanDonaldson/ST10318621_PROG_POE
 
-Compilation and Execution Prerequisites .NET Core SDK installed on your machine. Compilation and Execution Clone this repository to your local machine: git clone https://github.com/EthanDonaldson/EthanDonaldson_ST10318621_PROG6221_Part1 Navigate to the project directory: cd EthanDonaldson_ST10318621_PROG6221_Part1
+Compilation and Execution Prerequisites .NET Core SDK installed on your machine. Compilation and Execution Clone this repository to your local machine: git clone https://github.com/EthanDonaldson/EthanDonaldson_ST10318621_PROG6221_POE Navigate to the project directory: cd EthanDonaldson_ST10318621_PROG6221_POE
 
 Compile the application using the .NET CLI: dotnet build
 
@@ -21,6 +21,14 @@ Reset Quantities: After scaling a recipe, you can choose to reset its quantities
 Clear Data: If you want to clear the data of a recipe and add a new one, choose "yes" when prompted after scaling or viewing a recipe.
 
 Exit the Application: To exit the application, choose option 3 from the main menu, or press Ctrl + C in the terminal/command prompt.
+
+How i Improved my code from part 1:
+We used strong error handling in my project to deal with null data more skillfully. I guarantee application stability and prevent unexpected crashes by adding null checks to key code points, like user inputs and method arguments.
+
+To guarantee accurate and trustworthy conversions between various units of measurement, I have improved the unit conversion feature. This required careful conversion method testing and validation to handle a range of input possibilities. Now, users can depend on the application to convert amounts between different units precisely and error-free.
+
+
+Also, by including thorough comments all across the source, I aimed to improve the readability and maintainability of the code. These comments offer insightful explanations of the reasoning behind each technique.
 
 
 Reference List:
