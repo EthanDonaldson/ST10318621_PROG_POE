@@ -20,6 +20,7 @@ namespace ST10318621_PROG_POE.Classes
             Recipe recipe = new Recipe();
             recipe.EnterRecipeDetails();
             recipes.Add(recipe);
+            AskToScaleOrClearRecipe(recipe);
         }
 
         public void ListRecipes()
@@ -43,62 +44,50 @@ namespace ST10318621_PROG_POE.Classes
             if (int.TryParse(Console.ReadLine(), out int index) && index > 0 && index <= sortedRecipes.Count)
             {
                 sortedRecipes[index - 1].DisplayRecipe();
-                Console.WriteLine("Do you want to scale the recipe? (yes/no)");
-                string scaleChoice = Console.ReadLine().ToLower();
-
-                if (scaleChoice == "yes")
-                {
-                    Console.WriteLine("Enter scale factor (0.5 for half, 2 for double, 3 for triple):");
-                    if (double.TryParse(Console.ReadLine(), out double factor) && (factor == 0.5 || factor == 2 || factor == 3))
-                    {
-                        sortedRecipes[index - 1].ScaleRecipe(factor);
-                    }
-                    else
-                    {
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("Invalid scale factor.");
-                        Console.ResetColor();
-                    }
-
-                    Console.WriteLine("Do you want to reset the quantities? (yes/no)");
-                    string resetChoice = Console.ReadLine().ToLower();
-
-                    if (resetChoice == "yes")
-                    {
-                        sortedRecipes[index - 1].ResetQuantities();
-                    }
-
-                    Console.WriteLine("Do you want to clear the recipe data and add a new recipe? (yes/no)");
-                    string clearChoice = Console.ReadLine().ToLower();
-
-                    if (clearChoice == "yes")
-                    {
-                        sortedRecipes[index - 1].ClearData();
-                        AddRecipe();
-                    }
-                }
-                else if (scaleChoice == "no")
-                {
-                    Console.WriteLine("Do you want to clear the recipe data and add a new recipe? (yes/no)");
-                    string clearChoice = Console.ReadLine().ToLower();
-
-                    if (clearChoice == "yes")
-                    {
-                        sortedRecipes[index - 1].ClearData();
-                        AddRecipe();
-                    }
-                    else
-                    {
-                        Console.WriteLine("Exiting the application.");
-                        Environment.Exit(0);
-                    }
-                }
+                AskToScaleOrClearRecipe(sortedRecipes[index - 1]);
             }
             else
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Invalid input.");
                 Console.ResetColor();
+            }
+        }
+
+        private void AskToScaleOrClearRecipe(Recipe recipe)
+        {
+            Console.WriteLine("Do you want to scale the recipe? (yes/no)");
+            string scaleChoice = Console.ReadLine().ToLower();
+
+            if (scaleChoice == "yes")
+            {
+                Console.WriteLine("Enter scale factor (0.5 for half, 2 for double, 3 for triple):");
+                if (double.TryParse(Console.ReadLine(), out double factor) && (factor == 0.5 || factor == 2 || factor == 3))
+                {
+                    recipe.ScaleRecipe(factor);
+                    Console.WriteLine("Recipe scaled. Do you want to reset the quantities? (yes/no)");
+                    string resetChoice = Console.ReadLine().ToLower();
+
+                    if (resetChoice == "yes")
+                    {
+                        recipe.ResetQuantities();
+                    }
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Invalid scale factor.");
+                    Console.ResetColor();
+                }
+            }
+
+            Console.WriteLine("Do you want to clear the recipe data and add a new recipe? (yes/no)");
+            string clearChoice = Console.ReadLine().ToLower();
+
+            if (clearChoice == "yes")
+            {
+                recipe.ClearData();
+                AddRecipe();
             }
         }
     }
