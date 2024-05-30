@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace ST10318621_PROG_POE.Classes
 {
-    class Step
+    // This class represents a single step in a recipe
+    public class Step
     {
         public string Description { get; set; }
 
@@ -16,3 +17,4 @@ namespace ST10318621_PROG_POE.Classes
         }
     }
 }
+

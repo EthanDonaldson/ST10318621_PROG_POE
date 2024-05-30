@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace ST10318621_PROG_POE.Classes
 {
+    // This class provides methods to convert units of measurement
     public class UnitConverter
     {
+        // Converts various units to grams
         public static double ConvertToGrams(double quantity, string unit)
         {
             unit = unit.ToLower(); // Convert unit to lowercase
@@ -37,6 +39,7 @@ namespace ST10318621_PROG_POE.Classes
             }
         }
 
+        // Converts various units to liters
         public static double ConvertToLiters(double quantity, string unit)
         {
             unit = unit.ToLower(); // Convert unit to lowercase
@@ -59,6 +62,6 @@ namespace ST10318621_PROG_POE.Classes
                     throw new ArgumentException("Invalid unit.");
             }
         }
-
     }
 }
+

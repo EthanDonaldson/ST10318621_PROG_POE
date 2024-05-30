@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace ST10318621_PROG_POE.Classes {
 
+    // This class represents a recipe with ingredients, steps, and related functionalities
     public class Recipe
     {
         public string Name { get; private set; }
@@ -22,26 +23,33 @@ namespace ST10318621_PROG_POE.Classes {
             originalQuantities = new List<double>();
         }
 
+        // Adds an ingredient to the recipe and stores its original quantity
         public void AddIngredient(Ingredient ingredient)
         {
             ingredients.Add(ingredient);
             originalQuantities.Add(ingredient.Quantity);
         }
 
+        // Prompts the user to enter details for the recipe
         public void EnterRecipeDetails()
         {
+            Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("Enter the name of the recipe:");
+            Console.ResetColor();
             Name = ReadNonEmptyInput("Recipe name cannot be empty. Please enter the name of the recipe:");
 
             EnterIngredients();
             EnterSteps();
         }
 
+        // Prompts the user to enter details for each ingredient
         private void EnterIngredients()
         {
             ingredients.Clear(); // Clear previous ingredients
 
+            Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("Enter the number of ingredients:");
+            Console.ResetColor();
 
             int numIngredients;
             while (!int.TryParse(Console.ReadLine(), out numIngredients) || numIngredients <= 0)
@@ -53,7 +61,9 @@ namespace ST10318621_PROG_POE.Classes {
 
             for (int i = 0; i < numIngredients; i++)
             {
+                Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.WriteLine($"Enter the name of ingredient {i + 1}:");
+                Console.ResetColor();
                 string name = Console.ReadLine().Trim();
 
                 double quantity;
@@ -80,11 +90,14 @@ namespace ST10318621_PROG_POE.Classes {
             }
         }
 
+        // Prompts the user to enter details for each step
         private void EnterSteps()
         {
             steps.Clear(); // Clear previous steps
 
+            Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("Enter the number of steps:");
+            Console.ResetColor();
 
             int numSteps;
             while (!int.TryParse(Console.ReadLine(), out numSteps) || numSteps <= 0)
@@ -96,27 +109,35 @@ namespace ST10318621_PROG_POE.Classes {
 
             for (int i = 0; i < numSteps; i++)
             {
+                Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.WriteLine($"Enter step {i + 1}:");
+                Console.ResetColor();
                 string description = ReadNonEmptyInput($"Enter the description for step {i + 1}:");
                 steps.Add(new Step(description));
             }
         }
 
+        // Reads non-empty input from the user with a prompt
         private string ReadNonEmptyInput(string prompt)
         {
             string input;
             do
             {
+                Console.ForegroundColor = ConsoleColor.Cyan;
                 Console.WriteLine(prompt);
+                Console.ResetColor();
                 input = Console.ReadLine()?.Trim();
             } while (string.IsNullOrEmpty(input));
 
             return input;
         }
 
+        // Displays the recipe details
         public void DisplayRecipe()
         {
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine($"Recipe: {Name}");
+            Console.ResetColor();
 
             Console.WriteLine("Ingredients:");
             foreach (var ingredient in ingredients)
@@ -131,6 +152,7 @@ namespace ST10318621_PROG_POE.Classes {
             }
         }
 
+        // Scales the recipe quantities by a given factor
         public void ScaleRecipe(double factor)
         {
             if (factor <= 0)
@@ -146,9 +168,12 @@ namespace ST10318621_PROG_POE.Classes {
                 ingredient.Quantity *= factor;
             }
 
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Recipe scaled.");
+            Console.ResetColor();
         }
 
+        // Resets the ingredient quantities to their original values
         public void ResetQuantities()
         {
             for (int i = 0; i < ingredients.Count; i++)
@@ -156,9 +181,12 @@ namespace ST10318621_PROG_POE.Classes {
                 ingredients[i].Quantity = originalQuantities[i];
             }
 
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Quantities reset to original values.");
+            Console.ResetColor();
         }
 
+        // Clears all data from the recipe
         public void ClearData()
         {
             Name = "";
@@ -167,6 +195,7 @@ namespace ST10318621_PROG_POE.Classes {
             originalQuantities.Clear();
         }
 
+        // Checks total calories and notifies if exceeding a threshold
         public void CheckCaloriesAndNotify(RecipeCalorieNotification notificationDelegate)
         {
             double totalCalories = 0;
@@ -180,7 +209,9 @@ namespace ST10318621_PROG_POE.Classes {
                 notificationDelegate?.Invoke(this);
             }
         }
-        public double CalculateTotalCalories() // Ensure this method is public
+
+        // Calculates the total calories for the recipe
+        public double CalculateTotalCalories()
         {
             double totalCalories = 0;
             foreach (var ingredient in ingredients)
