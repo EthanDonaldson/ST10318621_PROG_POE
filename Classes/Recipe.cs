@@ -15,84 +15,62 @@ namespace ST10318621_PROG_POE.Classes
         private List<Step> steps;
         private List<double> originalQuantities;
 
-        public delegate void CaloriesExceededHandler(string message);
-        public event CaloriesExceededHandler OnCaloriesExceeded;
-
         public Recipe()
         {
             ingredients = new List<Ingredient>();
             steps = new List<Step>();
             originalQuantities = new List<double>();
-            OnCaloriesExceeded += DisplayCalorieWarning;
         }
 
         public void EnterRecipeDetails()
         {
             Console.WriteLine("Enter the name of the recipe:");
-            Name = Console.ReadLine();
+            Name = ReadNonEmptyInput("Recipe name cannot be empty");
 
             EnterIngredients();
             EnterSteps();
-            DisplayRecipe();
         }
 
         public void EnterIngredients()
         {
             Console.WriteLine("Enter the number of ingredients:");
 
-            if (int.TryParse(Console.ReadLine(), out int numIngredients) && numIngredients > 0)
-            {
-                for (int i = 0; i < numIngredients; i++)
-                {
-                    Console.WriteLine($"Enter the name of ingredient {i + 1}:");
-                    string name = Console.ReadLine();
-
-                    double quantity;
-                    while (true)
-                    {
-                        Console.WriteLine($"Enter the quantity of {name}:");
-                        if (double.TryParse(Console.ReadLine(), out quantity) && quantity > 0)
-                        {
-                            break;
-                        }
-                        else
-                        {
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine("Invalid input. Please enter a valid number.");
-                            Console.ResetColor();
-                        }
-                    }
-
-                    Console.WriteLine($"Enter the unit of measurement for {name}:");
-                    string unit = Console.ReadLine();
-
-                    double calories;
-                    while (true)
-                    {
-                        Console.WriteLine($"Enter the number of calories for {name}:");
-                        if (double.TryParse(Console.ReadLine(), out calories) && calories >= 0)
-                        {
-                            break;
-                        }
-                        else
-                        {
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine("Invalid input. Please enter a valid number.");
-                            Console.ResetColor();
-                        }
-                    }
-
-                    Console.WriteLine($"Enter the food group for {name}:");
-                    string foodGroup = Console.ReadLine();
-
-                    AddIngredient(new Ingredient(name, quantity, unit, calories, foodGroup));
-                }
-            }
-            else
+            int numIngredients;
+            while (!int.TryParse(Console.ReadLine(), out numIngredients) || numIngredients <= 0)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Invalid input. Please enter a valid number.");
                 Console.ResetColor();
+            }
+
+            for (int i = 0; i < numIngredients; i++)
+            {
+                Console.WriteLine($"Enter the name of ingredient {i + 1}:");
+                string name = ReadNonEmptyInput("Ingredient name cannot be empty");
+
+                double quantity;
+                while (!double.TryParse(Console.ReadLine(), out quantity) || quantity <= 0)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Invalid input. Please enter a valid number.");
+                    Console.ResetColor();
+                }
+
+                Console.WriteLine($"Enter the unit of measurement for {name}:");
+                string unit = ReadNonEmptyInput("Unit of measurement cannot be empty");
+
+                double calories;
+                while (!double.TryParse(Console.ReadLine(), out calories) || calories < 0)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Invalid input. Please enter a valid number.");
+                    Console.ResetColor();
+                }
+
+                Console.WriteLine($"Enter the food group for {name}:");
+                string foodGroup = ReadNonEmptyInput("Food group cannot be empty");
+
+                AddIngredient(new Ingredient(name, quantity, unit, calories, foodGroup));
             }
         }
 
@@ -100,21 +78,32 @@ namespace ST10318621_PROG_POE.Classes
         {
             Console.WriteLine("Enter the number of steps:");
 
-            if (int.TryParse(Console.ReadLine(), out int numSteps) && numSteps > 0)
-            {
-                for (int i = 0; i < numSteps; i++)
-                {
-                    Console.WriteLine($"Enter step {i + 1}:");
-                    string description = Console.ReadLine();
-                    AddStep(new Step(description));
-                }
-            }
-            else
+            int numSteps;
+            while (!int.TryParse(Console.ReadLine(), out numSteps) || numSteps <= 0)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Invalid input. Please enter a valid number.");
                 Console.ResetColor();
             }
+
+            for (int i = 0; i < numSteps; i++)
+            {
+                Console.WriteLine($"Enter step {i + 1}:");
+                string description = ReadNonEmptyInput("Step description cannot be empty");
+                AddStep(new Step(description));
+            }
+        }
+
+        private string ReadNonEmptyInput(string prompt)
+        {
+            string input;
+            do
+            {
+                Console.WriteLine(prompt);
+                input = Console.ReadLine()?.Trim();
+            } while (string.IsNullOrEmpty(input));
+
+            return input;
         }
 
         public void AddIngredient(Ingredient ingredient)
@@ -128,31 +117,6 @@ namespace ST10318621_PROG_POE.Classes
             steps.Add(step);
         }
 
-        public void ScaleRecipe(double factor)
-        {
-            for (int i = 0; i < ingredients.Count; i++)
-            {
-                ingredients[i].Quantity *= factor;
-                (double newQuantity, string newUnit) = UnitConverter.ConvertUnits(ingredients[i].Quantity, ingredients[i].Unit);
-                ingredients[i].Quantity = newQuantity;
-                ingredients[i].Unit = newUnit;
-            }
-            DisplayRecipe();
-        }
-
-        public void ResetQuantities()
-        {
-            for (int i = 0; i < ingredients.Count; i++)
-            {
-                ingredients[i].Quantity = originalQuantities[i];
-                (double newQuantity, string newUnit) = UnitConverter.ConvertUnits(ingredients[i].Quantity, ingredients[i].Unit);
-                ingredients[i].Quantity = newQuantity;
-                ingredients[i].Unit = newUnit;
-            }
-            Console.WriteLine("Quantities reset to original values.");
-            DisplayRecipe();
-        }
-
         public void ClearData()
         {
             ingredients.Clear();
@@ -163,46 +127,37 @@ namespace ST10318621_PROG_POE.Classes
 
         public void DisplayRecipe()
         {
-            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine($"Recipe: {Name}");
-            Console.ResetColor();
 
             Console.WriteLine("Ingredients:");
             foreach (var ingredient in ingredients)
             {
-                Console.WriteLine($"{ingredient.Quantity} {ingredient.Unit} of {ingredient.Name} ({ingredient.Calories} calories, {ingredient.FoodGroup})");
-            }
-
-            double totalCalories = CalculateTotalCalories();
-            if (totalCalories > 300)
-            {
-                OnCaloriesExceeded?.Invoke($"Warning: The total calories of this recipe exceed 300 (Total: {totalCalories} calories).");
+                Console.WriteLine($"{ingredient.Name}: {ingredient.Quantity} {ingredient.Unit}");
             }
 
             Console.WriteLine("Steps:");
-            for (int i = 0; i < steps.Count; i++)
+            foreach (var step in steps)
             {
-                Console.WriteLine($"{i + 1}. {steps[i].Description}");
+                Console.WriteLine(step.Description);
             }
-
-            Console.WriteLine($"Total Calories: {totalCalories}");
         }
 
-        public double CalculateTotalCalories()
+        public void ScaleRecipe(double factor)
         {
-            double totalCalories = 0;
-            foreach (var ingredient in ingredients)
+            for (int i = 0; i < ingredients.Count; i++)
             {
-                totalCalories += ingredient.Calories;
+                ingredients[i].Quantity = originalQuantities[i] * factor;
             }
-            return totalCalories;
+            Console.WriteLine("Recipe scaled.");
         }
 
-        private void DisplayCalorieWarning(string message)
+        public void ResetQuantities()
         {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine(message);
-            Console.ResetColor();
+            for (int i = 0; i < ingredients.Count; i++)
+            {
+                ingredients[i].Quantity = originalQuantities[i];
+            }
+            Console.WriteLine("Quantities reset to original values.");
         }
     }
 }
