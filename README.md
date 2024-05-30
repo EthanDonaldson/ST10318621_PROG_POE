@@ -1,6 +1,8 @@
 Overview
 This is a simple console application for managing recipes. It allows users to add recipes, list existing recipes, and interact with them by scaling ingredients, resetting quantities, and more.
 
+Github Link:https://github.com/EthanDonaldson/ST10318621_PROG_POE
+
 Compilation and Execution Prerequisites .NET Core SDK installed on your machine. Compilation and Execution Clone this repository to your local machine: git clone https://github.com/EthanDonaldson/EthanDonaldson_ST10318621_PROG6221_Part1 Navigate to the project directory: cd EthanDonaldson_ST10318621_PROG6221_Part1
 
 Compile the application using the .NET CLI: dotnet build
