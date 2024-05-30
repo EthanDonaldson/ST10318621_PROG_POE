@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 namespace ST10318621_PROG_POE.Classes
 
 {
+
     class Recipe
     {
         public string Name { get; private set; }
@@ -24,15 +25,16 @@ namespace ST10318621_PROG_POE.Classes
 
         public void EnterRecipeDetails()
         {
-            Console.WriteLine("Enter the name of the recipe:");
-            Name = ReadNonEmptyInput("Recipe name cannot be empty");
+            Name = ReadNonEmptyInput("Enter the name of the recipe:");
 
             EnterIngredients();
             EnterSteps();
         }
 
-        public void EnterIngredients()
+        private void EnterIngredients()
         {
+            ingredients.Clear(); // Clear previous ingredients
+
             Console.WriteLine("Enter the number of ingredients:");
 
             int numIngredients;
@@ -46,36 +48,36 @@ namespace ST10318621_PROG_POE.Classes
             for (int i = 0; i < numIngredients; i++)
             {
                 Console.WriteLine($"Enter the name of ingredient {i + 1}:");
-                string name = ReadNonEmptyInput("Ingredient name cannot be empty");
+                string name = Console.ReadLine().Trim();
 
                 double quantity;
-                while (!double.TryParse(Console.ReadLine(), out quantity) || quantity <= 0)
+                while (!double.TryParse(ReadNonEmptyInput($"Enter the quantity of {name}:"), out quantity) || quantity <= 0)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Invalid input. Please enter a valid number.");
                     Console.ResetColor();
                 }
 
-                Console.WriteLine($"Enter the unit of measurement for {name}:");
-                string unit = ReadNonEmptyInput("Unit of measurement cannot be empty");
+                string unit = ReadNonEmptyInput($"Enter the unit of measurement for {name}:");
 
                 double calories;
-                while (!double.TryParse(Console.ReadLine(), out calories) || calories < 0)
+                while (!double.TryParse(ReadNonEmptyInput($"Enter the calories for {name}:"), out calories) || calories < 0)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Invalid input. Please enter a valid number.");
                     Console.ResetColor();
                 }
 
-                Console.WriteLine($"Enter the food group for {name}:");
-                string foodGroup = ReadNonEmptyInput("Food group cannot be empty");
+                string foodGroup = ReadNonEmptyInput($"Enter the food group for {name}:");
 
-                AddIngredient(new Ingredient(name, quantity, unit, calories, foodGroup));
+                ingredients.Add(new Ingredient(name, quantity, unit, calories, foodGroup));
             }
         }
 
-        public void EnterSteps()
+        private void EnterSteps()
         {
+            steps.Clear(); // Clear previous steps
+
             Console.WriteLine("Enter the number of steps:");
 
             int numSteps;
@@ -89,8 +91,8 @@ namespace ST10318621_PROG_POE.Classes
             for (int i = 0; i < numSteps; i++)
             {
                 Console.WriteLine($"Enter step {i + 1}:");
-                string description = ReadNonEmptyInput("Step description cannot be empty");
-                AddStep(new Step(description));
+                string description = ReadNonEmptyInput($"Enter the description for step {i + 1}:");
+                steps.Add(new Step(description));
             }
         }
 
@@ -104,25 +106,6 @@ namespace ST10318621_PROG_POE.Classes
             } while (string.IsNullOrEmpty(input));
 
             return input;
-        }
-
-        public void AddIngredient(Ingredient ingredient)
-        {
-            ingredients.Add(ingredient);
-            originalQuantities.Add(ingredient.Quantity);
-        }
-
-        public void AddStep(Step step)
-        {
-            steps.Add(step);
-        }
-
-        public void ClearData()
-        {
-            ingredients.Clear();
-            originalQuantities.Clear();
-            steps.Clear();
-            Console.WriteLine("Data cleared.");
         }
 
         public void DisplayRecipe()
@@ -144,10 +127,19 @@ namespace ST10318621_PROG_POE.Classes
 
         public void ScaleRecipe(double factor)
         {
-            for (int i = 0; i < ingredients.Count; i++)
+            if (factor <= 0)
             {
-                ingredients[i].Quantity = originalQuantities[i] * factor;
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Invalid scale factor. Scale factor must be greater than zero.");
+                Console.ResetColor();
+                return;
             }
+
+            foreach (var ingredient in ingredients)
+            {
+                ingredient.Quantity *= factor;
+            }
+
             Console.WriteLine("Recipe scaled.");
         }
 
@@ -157,7 +149,16 @@ namespace ST10318621_PROG_POE.Classes
             {
                 ingredients[i].Quantity = originalQuantities[i];
             }
+
             Console.WriteLine("Quantities reset to original values.");
+        }
+
+        public void ClearData()
+        {
+            Name = "";
+            ingredients.Clear();
+            steps.Clear();
+            originalQuantities.Clear();
         }
     }
 }
