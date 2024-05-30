@@ -5,6 +5,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+/* Ethan Donaldson 
+ * ST10318621
+ * Group 2
+ * 
+ * Change forground colour according to GeeksforGeeks (2019), How to change Foreground Color of Text in Console [Online]
+ * available at: https://www.geeksforgeeks.org/c-sharp-how-to-change-foreground-color-of-text-in-console/ [Accessed may 17 2024]
+ * 
+ * Collections according to Khandelwal. V, An Ultimate One-Stop Solution Guide to Collections in C# Programming With Examples [Online]
+ * available at :https://www.simplilearn.com/tutorials/c-sharp-tutorial/collections-in-c-sharp [Accessed 30 May 2024]
+ * 
+ * Troeleson, A. Japikse, P. 2022. Pro C# with .NET 6 Foundational principles and practices in programming. Chamsbersburg, PA, USA
+ */
+
 namespace ST10318621_PROG_POE.Classes {
 
     // This class represents a recipe with ingredients, steps, and related functionalities
