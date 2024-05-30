@@ -6,18 +6,59 @@ using System.Threading.Tasks;
 
 namespace ST10318621_PROG_POE.Classes
 {
-    static class UnitConverter
+    public class UnitConverter
     {
-        public static (double, string) ConvertUnits(double quantity, string unit)
+        public static double ConvertToGrams(double quantity, string unit)
         {
-            // Example conversion: 16 tablespoons = 1 cup
-            if (unit == "tablespoons" && quantity >= 16)
-            {
-                return (quantity / 16, "cups");
-            }
-            // Add more conversions as needed
+            unit = unit.ToLower(); // Convert unit to lowercase
 
-            return (quantity, unit);
+            switch (unit)
+            {
+                case "g":
+                case "grams":
+                    return quantity;
+                case "kg":
+                case "kilograms":
+                    return quantity * 1000;
+                case "oz":
+                case "ounces":
+                    return quantity * 28.35; // 1 ounce = 28.35 grams
+                case "lb":
+                case "pounds":
+                    return quantity * 453.59; // 1 pound = 453.59 grams
+                case "tsp":
+                case "teaspoons":
+                    return quantity * 4.93; // 1 teaspoon = 4.93 grams
+                case "tbsp":
+                case "tablespoons":
+                    return quantity * 14.79; // 1 tablespoon = 14.79 grams
+                default:
+                    throw new ArgumentException("Invalid unit.");
+            }
         }
+
+        public static double ConvertToLiters(double quantity, string unit)
+        {
+            unit = unit.ToLower(); // Convert unit to lowercase
+
+            switch (unit)
+            {
+                case "ml":
+                case "milliliters":
+                    return quantity / 1000;
+                case "l":
+                case "liters":
+                    return quantity;
+                case "fl oz":
+                case "fluid ounces":
+                    return quantity * 0.029574; // 1 fluid ounce = 0.029574 liters
+                case "cup":
+                case "cups":
+                    return quantity * 0.236588; // 1 cup = 0.236588 liters
+                default:
+                    throw new ArgumentException("Invalid unit.");
+            }
+        }
+
     }
 }

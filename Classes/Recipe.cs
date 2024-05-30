@@ -5,16 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ST10318621_PROG_POE.Classes
+namespace ST10318621_PROG_POE.Classes {
 
-{
-
-    class Recipe
+    public class Recipe
     {
         public string Name { get; private set; }
         private List<Ingredient> ingredients;
         private List<Step> steps;
         private List<double> originalQuantities;
+        public delegate void RecipeCalorieNotification(Recipe recipe);
 
         public Recipe()
         {
@@ -25,7 +24,8 @@ namespace ST10318621_PROG_POE.Classes
 
         public void EnterRecipeDetails()
         {
-            Name = ReadNonEmptyInput("Enter the name of the recipe:");
+            Console.WriteLine("Enter the name of the recipe:");
+            Name = ReadNonEmptyInput("Recipe name cannot be empty. Please enter the name of the recipe:");
 
             EnterIngredients();
             EnterSteps();
@@ -159,6 +159,20 @@ namespace ST10318621_PROG_POE.Classes
             ingredients.Clear();
             steps.Clear();
             originalQuantities.Clear();
+        }
+
+        public void CheckCaloriesAndNotify(RecipeCalorieNotification notificationDelegate)
+        {
+            double totalCalories = 0;
+            foreach (var ingredient in ingredients)
+            {
+                totalCalories += ingredient.Calories;
+            }
+
+            if (totalCalories > 300)
+            {
+                notificationDelegate?.Invoke(this);
+            }
         }
     }
 }

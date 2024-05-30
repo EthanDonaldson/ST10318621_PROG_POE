@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ST10318621_PROG_POE.Classes
 {
-    class RecipeManager
+    public class RecipeManager
     {
         private List<Recipe> recipes;
 
@@ -21,6 +21,9 @@ namespace ST10318621_PROG_POE.Classes
             recipe.EnterRecipeDetails();
             recipes.Add(recipe);
             AskToScaleOrClearRecipe(recipe);
+
+            // Subscribe to the CheckCaloriesAndNotify method with the appropriate delegate method
+            recipe.CheckCaloriesAndNotify(NotifyExceedCalories);
         }
 
         public void ListRecipes()
@@ -89,6 +92,14 @@ namespace ST10318621_PROG_POE.Classes
                 recipe.ClearData();
                 AddRecipe();
             }
+        }
+
+        // Method to handle notification when a recipe exceeds 300 calories
+        private void NotifyExceedCalories(Recipe recipe)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"Warning: The recipe '{recipe.Name}' exceeds 300 calories.");
+            Console.ResetColor();
         }
     }
 }
