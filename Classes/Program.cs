@@ -1,12 +1,13 @@
-﻿using System;
+﻿using ST10318621_PROG_POE.Classes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ST10318621_PROG_POE
+namespace ST10318621_PROG_POE.Classes
 {
-    internal class Program
+    class Program
     {
         static void Main(string[] args)
         {

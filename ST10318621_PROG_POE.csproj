@@ -43,7 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="Classes\Ingredient.cs" />
+    <Compile Include="Classes\Program.cs" />
+    <Compile Include="Classes\Recipe.cs" />
+    <Compile Include="Classes\RecipeManager.cs" />
+    <Compile Include="Classes\Step.cs" />
+    <Compile Include="Classes\UnitConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
