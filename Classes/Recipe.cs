@@ -22,6 +22,12 @@ namespace ST10318621_PROG_POE.Classes {
             originalQuantities = new List<double>();
         }
 
+        public void AddIngredient(Ingredient ingredient)
+        {
+            ingredients.Add(ingredient);
+            originalQuantities.Add(ingredient.Quantity);
+        }
+
         public void EnterRecipeDetails()
         {
             Console.WriteLine("Enter the name of the recipe:");
@@ -174,6 +180,16 @@ namespace ST10318621_PROG_POE.Classes {
                 notificationDelegate?.Invoke(this);
             }
         }
+        public double CalculateTotalCalories() // Ensure this method is public
+        {
+            double totalCalories = 0;
+            foreach (var ingredient in ingredients)
+            {
+                totalCalories += ingredient.Quantity * ingredient.Calories;
+            }
+            return totalCalories;
+        }
     }
 }
+
 
