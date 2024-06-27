@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ST10318621_PROG_POE.Classes
 {
@@ -15,14 +13,30 @@ namespace ST10318621_PROG_POE.Classes
             recipes = new List<Recipe>();
         }
 
+        public void AddRecipe(Recipe recipe)
+        {
+            recipes.Add(recipe);
+        }
+
+        public List<Recipe> GetAllRecipes()
+        {
+            return recipes;
+        }
+
+        public List<Recipe> FilterRecipes(string ingredient, string foodGroup, double maxCalories)
+        {
+            return recipes.Where(r =>
+                (string.IsNullOrEmpty(ingredient) || r.GetIngredients().Any(i => i.Name.ToLower().Contains(ingredient.ToLower()))) &&
+                (string.IsNullOrEmpty(foodGroup) || r.GetIngredients().Any(i => i.FoodGroup == foodGroup)) &&
+                r.CalculateTotalCalories() <= maxCalories).ToList();
+        }
+
         public void AddRecipe()
         {
             Recipe recipe = new Recipe();
             recipe.EnterRecipeDetails();
             recipes.Add(recipe);
             AskToScaleOrClearRecipe(recipe);
-
-            // Subscribe to the CheckCaloriesAndNotify method with the appropriate delegate method
             recipe.CheckCaloriesAndNotify(NotifyExceedCalories);
         }
 
@@ -94,7 +108,6 @@ namespace ST10318621_PROG_POE.Classes
             }
         }
 
-        // Method to handle notification when a recipe exceeds 300 calories
         private void NotifyExceedCalories(Recipe recipe)
         {
             Console.ForegroundColor = ConsoleColor.Red;

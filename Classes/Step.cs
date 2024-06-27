@@ -9,7 +9,7 @@ namespace ST10318621_PROG_POE.Classes
     // This class represents a single step in a recipe
     public class Step
     {
-        public string Description { get; set; }
+        public string Description { get; private set; }
 
         public Step(string description)
         {

@@ -15,9 +15,13 @@ namespace ST10318621_PROG_POE.Classes
 
             while (true)
             {
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine("****************************************");
                 Console.WriteLine("1. Add Recipe");
                 Console.WriteLine("2. List Recipes");
                 Console.WriteLine("3. Exit");
+                Console.WriteLine("****************************************");
+                Console.ResetColor();
 
                 string choice = Console.ReadLine();
 
@@ -40,5 +44,5 @@ namespace ST10318621_PROG_POE.Classes
             }
         }
     }
-}  
+}
 

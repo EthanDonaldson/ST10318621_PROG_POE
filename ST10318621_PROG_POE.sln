@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ST10318621_PROG_POE", "ST10
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipeTests", "..\RecipeTests\RecipeTests.csproj", "{73400F51-44A0-4914-9334-A8335A89971A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipeWPF", "..\RecipeWPF\RecipeWPF.csproj", "{A2B86987-D079-4585-A661-E96714F3D403}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{73400F51-44A0-4914-9334-A8335A89971A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{73400F51-44A0-4914-9334-A8335A89971A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{73400F51-44A0-4914-9334-A8335A89971A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2B86987-D079-4585-A661-E96714F3D403}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2B86987-D079-4585-A661-E96714F3D403}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2B86987-D079-4585-A661-E96714F3D403}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2B86987-D079-4585-A661-E96714F3D403}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
